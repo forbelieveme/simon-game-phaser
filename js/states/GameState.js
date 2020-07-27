@@ -75,8 +75,13 @@ SimonGame.GameState = {
 		this.yellowBtn.anchor.setTo(1, 0);
 		this.yellowBtn.inputEnabled = true;
 		this.yellowBtn.input.pixelPerfectClick = true;
-		this.yellowBtn.events.onInputDown.add(this.pickButton, this);
-		this.yellowBtn.animations.add('animate', [1, 2, 1], 5, false);
+		this.yellowBtn.events.onInputDown.add(this.animateButton, this);
+		this.yellowAnim = this.yellowBtn.animations.add(
+			'animate',
+			[1, 2, 1],
+			5,
+			false
+		);
 
 		this.blueBtn = this.add.sprite(
 			this.game.world.centerX + this.config.blueSprite.x,
@@ -88,8 +93,8 @@ SimonGame.GameState = {
 		this.blueBtn.anchor.setTo(0, 0);
 		this.blueBtn.inputEnabled = true;
 		this.blueBtn.input.pixelPerfectClick = true;
-		this.blueBtn.events.onInputDown.add(this.pickButton, this);
-		this.blueBtn.animations.add('animate', [1, 2, 1], 5, false);
+		this.blueBtn.events.onInputDown.add(this.animateButton, this);
+		this.blueAnim = this.blueBtn.animations.add('animate', [1, 2, 1], 5, false);
 
 		this.redBtn = this.add.sprite(
 			this.game.world.centerX + this.config.redSprite.x,
@@ -101,8 +106,8 @@ SimonGame.GameState = {
 		this.redBtn.anchor.setTo(0, 1);
 		this.redBtn.inputEnabled = true;
 		this.redBtn.input.pixelPerfectClick = true;
-		this.redBtn.events.onInputDown.add(this.pickButton, this);
-		this.redBtn.animations.add('animate', [1, 2, 1], 5, false);
+		this.redBtn.events.onInputDown.add(this.animateButton, this);
+		this.redAnim = this.redBtn.animations.add('animate', [1, 2, 1], 5, false);
 
 		this.greenBtn = this.add.sprite(
 			this.game.world.centerX + this.config.greenSprite.x,
@@ -114,13 +119,51 @@ SimonGame.GameState = {
 		this.greenBtn.anchor.setTo(1, 1);
 		this.greenBtn.inputEnabled = true;
 		this.greenBtn.input.pixelPerfectClick = true;
-		this.greenBtn.events.onInputDown.add(this.pickButton, this);
-		this.greenBtn.animations.add('animate', [1, 2, 1], 5, false);
+		this.greenBtn.events.onInputDown.add(this.animateButton, this);
+		this.greenAnim = this.greenBtn.animations.add(
+			'animate',
+			[1, 2, 1],
+			5,
+			false
+		);
+		this.anims = [this.yellowAnim, this.blueAnim, this.redAnim, this.greenAnim];
+		this.buttons = [this.yellowBtn, this.blueBtn, this.redBtn, this.greenBtn];
+
+		this.uiBlocked = false;
+
+		this.sequence = [];
 	},
 	update: function () {},
-	pickButton: function (sprite, event) {
-		console.log(`activado`, sprite.key);
-		sprite.play('animate')
+	animateButton: function (sprite, event) {
+		if (!this.uiBlocked) {
+			this.uiBlocked = true;
+			sprite.play('animate');
 
+			this.buttons.forEach((element) => {
+				if (element === sprite) {
+					this.sequence.push(element);
+				}
+			}, this);
+
+			this.anims.forEach((element) => {
+				element.onComplete.add(() => {
+					console.log(`Acabo`);
+					this.uiBlocked = false;
+				}, this);
+			}, this);
+			console.log(this.sequence);
+		}
+	},
+	createSequence: function () {
+		this.sequence.append('greenBtn');
+	},
+	playSequence: function () {},
+	prueba: function () {
+		console.log(`i`);
+		this.game.time.events.add(2000, this.playSequence, this);
 	},
 };
+
+function randomChoice(arr) {
+	return arr[Math.floor(Math.random() * arr.length)];
+}
