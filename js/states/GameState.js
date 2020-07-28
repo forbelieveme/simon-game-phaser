@@ -53,6 +53,7 @@ SimonGame.GameState = {
 		this.load.text('config', 'assets/data/simon.json');
 	},
 	create: function () {
+		var framePerSec = 5;
 		this.config = JSON.parse(this.game.cache.getText('config'));
 
 		this.background = this.add.sprite(0, 0, 'background');
@@ -79,7 +80,7 @@ SimonGame.GameState = {
 		this.yellowAnim = this.yellowBtn.animations.add(
 			'animate',
 			[1, 2, 1],
-			5,
+			framePerSec,
 			false
 		);
 
@@ -94,7 +95,12 @@ SimonGame.GameState = {
 		this.blueBtn.inputEnabled = true;
 		this.blueBtn.input.pixelPerfectClick = true;
 		this.blueBtn.events.onInputDown.add(this.animateButton, this);
-		this.blueAnim = this.blueBtn.animations.add('animate', [1, 2, 1], 5, false);
+		this.blueAnim = this.blueBtn.animations.add(
+			'animate',
+			[1, 2, 1],
+			framePerSec,
+			false
+		);
 
 		this.redBtn = this.add.sprite(
 			this.game.world.centerX + this.config.redSprite.x,
@@ -107,7 +113,12 @@ SimonGame.GameState = {
 		this.redBtn.inputEnabled = true;
 		this.redBtn.input.pixelPerfectClick = true;
 		this.redBtn.events.onInputDown.add(this.animateButton, this);
-		this.redAnim = this.redBtn.animations.add('animate', [1, 2, 1], 5, false);
+		this.redAnim = this.redBtn.animations.add(
+			'animate',
+			[1, 2, 1],
+			framePerSec,
+			false
+		);
 
 		this.greenBtn = this.add.sprite(
 			this.game.world.centerX + this.config.greenSprite.x,
@@ -123,7 +134,7 @@ SimonGame.GameState = {
 		this.greenAnim = this.greenBtn.animations.add(
 			'animate',
 			[1, 2, 1],
-			5,
+			framePerSec,
 			false
 		);
 		this.anims = [this.yellowAnim, this.blueAnim, this.redAnim, this.greenAnim];
@@ -131,7 +142,18 @@ SimonGame.GameState = {
 
 		this.uiBlocked = false;
 
-		this.sequence = [];
+		// this.sequence = [this.yellowBtn, this.blueBtn];
+		var x = 0;
+		this.sequence = ['yellowBtn', 'blueBtn', 'yellowBtn'];
+
+		this.game.time.events.add(
+			Phaser.Timer.SECOND * 2,
+			this.playSequence,
+			this,
+			this.sequence,
+			x
+		);
+		// this.playSequence(0, x);
 	},
 	update: function () {},
 	animateButton: function (sprite, event) {
@@ -141,29 +163,54 @@ SimonGame.GameState = {
 
 			this.buttons.forEach((element) => {
 				if (element === sprite) {
-					this.sequence.push(element);
+					// this.sequence.push(element);
 				}
 			}, this);
 
 			this.anims.forEach((element) => {
 				element.onComplete.add(() => {
-					console.log(`Acabo`);
 					this.uiBlocked = false;
 				}, this);
 			}, this);
-			console.log(this.sequence);
+			// console.log(this.sequence);
 		}
 	},
 	createSequence: function () {
-		this.sequence.append('greenBtn');
+		this.sequence.append(this.buttons[getRndInteger(0, 3)].name);
 	},
-	playSequence: function () {},
-	prueba: function () {
-		console.log(`i`);
-		this.game.time.events.add(2000, this.playSequence, this);
+	// playSequence: function () {},
+	playSequence: function (sequence, count) {
+		console.log(`1`);
+
+		if (count < this.sequence.length) {
+			console.log(`2`);
+			switch (this.sequence[count]) {
+				case 'yellowBtn':
+					this.animateButton(this.buttons[0]);
+					break;
+				case 'blueBtn':
+					this.animateButton(this.buttons[1]);
+					break;
+				case 'redBtn':
+					this.animateButton(this.buttons[2]);
+					break;
+				case 'greenBtn':
+					this.animateButton(this.buttons[3]);
+					break;
+			}
+
+			this.game.time.events.add(
+				Phaser.Timer.SECOND * 3,
+				this.playSequence,
+				this,
+				sequence,
+				count + 1
+			);
+		}
+		// this.game.time.events.add(2000, this.playSequence, this);
 	},
 };
 
-function randomChoice(arr) {
-	return arr[Math.floor(Math.random() * arr.length)];
+function getRndInteger(min, max) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
