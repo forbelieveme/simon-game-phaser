@@ -12,10 +12,28 @@ SimonGame.GameState = {
 		// this.load.image('ground', 'assets2/images/ground.png');
 		this.load.image('base', 'assets/images/fondoNivel.png');
 		this.load.image('background', 'assets/images/fondo.jpg');
+		this.load.image('tablero', 'assets/images/panelInfoNivel.png');
 		this.load.image('1', 'assets/images/1.png');
 		this.load.image('2', 'assets/images/2.png');
 		this.load.image('3', 'assets/images/3.png');
 		this.load.image('go', 'assets/images/go.png');
+
+		this.load.audio('yellowSound', [
+			'assets/audio/do.ogg',
+			'assets/audio/do.mp3',
+		]);
+		this.load.audio('blueSound', [
+			'assets/audio/fa.ogg',
+			'assets/audio/fa.mp3',
+		]);
+		this.load.audio('redSound', [
+			'assets/audio/la.ogg',
+			'assets/audio/la.mp3',
+		]);
+		this.load.audio('greenSound', [
+			'assets/audio/mi.ogg',
+			'assets/audio/mi.mp3',
+		]);
 
 
 		this.load.spritesheet(
@@ -70,6 +88,28 @@ SimonGame.GameState = {
 		);
 		this.base.anchor.setTo(0.5);
 		this.base.scale.setTo(0.5);
+
+		this.tablero = this.add.sprite(
+			this.game.world.centerX,
+			40,
+			'tablero'
+		);
+		this.tablero.anchor.setTo(0.5);
+		this.tablero.scale.setTo(0.8);
+
+		var style = {
+			font: 'bold 25pt Arial',
+			fill: '#000',
+			align: 'center',
+		};
+		this.score = this.game.add.text(
+			this.game.world.centerX+145,
+			42,
+			'',
+			style
+		);
+		this.score.anchor.setTo(0.5);
+		this.score.visible = true;
 
 		this.yellowBtn = this.add.sprite(
 			this.game.world.centerX + this.config.yellowSprite.x,
@@ -151,18 +191,12 @@ SimonGame.GameState = {
 		this.sequencePlayer = [];
 		this.posicion = 0;
 		this.conteoInicial()
-		// this.game.time.events.add(
-		// 	Phaser.Timer.SECOND * 3,
-		// 	this.createSequence,
-		// 	this
-		// );
 	},
 	update: function () { },
 	animateButton: function (sprite, event) {
 		if (!this.uiBlocked) {
 			this.uiBlocked = true;
 			if (this.playerTurn) {
-
 				this.checkArrays(sprite.key)
 			}
 
@@ -180,7 +214,6 @@ SimonGame.GameState = {
 		this.sequenceGame.push(
 			this.buttons[this.game.rnd.integerInRange(0, 3)].key
 		);
-		console.log(`Arreglo: `, this.sequenceGame);
 		this.playSequence(0)
 	},
 	playSequence: function (i) {
@@ -198,13 +231,11 @@ SimonGame.GameState = {
 				this.turnoJugador,
 				this
 			)
-
 		}
 
 		this.gameTurn = false;
 	},
 	auxiliar: function (i) {
-		console.log(`test`, i);
 		switch (this.sequenceGame[i]) {
 			case 'yellowBtn':
 				this.animateButton(this.buttons[0]);
@@ -229,15 +260,15 @@ SimonGame.GameState = {
 	checkArrays: function (button) {
 		console.log(`Revisa jugada`);
 		this.sequencePlayer.push(button);
-		console.log(`SP: `, this.sequencePlayer);
 
 		var playerS = JSON.stringify(this.sequencePlayer[this.posicion])
 		var gameS = JSON.stringify(this.sequenceGame[this.posicion])
 
-		console.log(`p: `, playerS, ` g: `, gameS);
 
 		if (playerS === gameS && this.posicion + 1 == this.sequenceGame.length) {
-			console.log(`Win`);
+			console.log(`Win`, this.sequenceGame.length);
+			this.score.setText(this.sequenceGame.length);
+
 			this.playerTurn = false;
 			this.sequencePlayer = []
 			this.posicion = 0;

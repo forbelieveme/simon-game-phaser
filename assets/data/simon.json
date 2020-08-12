@@ -14,5 +14,11 @@
 	"yellowSprite": {
 		"x": 6,
 		"y": -12
-	}
+	},
+	"buttonData": [
+		{ "key": "yellowBtn", "x": 6, "y": -12, "audio": "yellowSound" },
+		{ "key": "blueBtn", "x": -4, "y": -13, "audio": "blueSound" },
+		{ "key": "redBtn", "x": -5, "y": 5, "audio": "redSound" },
+		{ "key": "greenBtn", "x": 8, "y": 1, "audio": "greenSound" }
+	]
 }
