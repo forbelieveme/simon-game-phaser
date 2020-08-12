@@ -141,76 +141,107 @@ SimonGame.GameState = {
 		this.buttons = [this.yellowBtn, this.blueBtn, this.redBtn, this.greenBtn];
 
 		this.uiBlocked = false;
-
-		// this.sequence = [this.yellowBtn, this.blueBtn];
-		var x = 0;
-		this.sequence = ['yellowBtn', 'blueBtn', 'yellowBtn'];
+		this.playerTurn = false;
+		this.sequenceGame = [];
+		this.sequencePlayer = [];
+		this.posicion = 0;
 
 		this.game.time.events.add(
-			Phaser.Timer.SECOND * 2,
-			this.playSequence,
-			this,
-			this.sequence,
-			x
+			Phaser.Timer.SECOND * 3,
+			this.createSequence,
+			this
 		);
-		// this.playSequence(0, x);
 	},
-	update: function () {},
+	update: function () { },
 	animateButton: function (sprite, event) {
 		if (!this.uiBlocked) {
 			this.uiBlocked = true;
-			sprite.play('animate');
+			if (this.playerTurn) {
 
-			this.buttons.forEach((element) => {
-				if (element === sprite) {
-					// this.sequence.push(element);
-				}
-			}, this);
+				this.checkArrays(sprite.key)
+			}
+
+			sprite.play('animate');
 
 			this.anims.forEach((element) => {
 				element.onComplete.add(() => {
 					this.uiBlocked = false;
 				}, this);
 			}, this);
-			// console.log(this.sequence);
+
 		}
 	},
 	createSequence: function () {
-		this.sequence.append(this.buttons[getRndInteger(0, 3)].name);
+		this.sequenceGame.push(
+			this.buttons[this.game.rnd.integerInRange(0, 3)].key
+		);
+		console.log(`Arreglo: `, this.sequenceGame);
+		this.playSequence(0)
 	},
-	// playSequence: function () {},
-	playSequence: function (sequence, count) {
-		console.log(`1`);
+	playSequence: function (i) {
 
-		if (count < this.sequence.length) {
-			console.log(`2`);
-			switch (this.sequence[count]) {
-				case 'yellowBtn':
-					this.animateButton(this.buttons[0]);
-					break;
-				case 'blueBtn':
-					this.animateButton(this.buttons[1]);
-					break;
-				case 'redBtn':
-					this.animateButton(this.buttons[2]);
-					break;
-				case 'greenBtn':
-					this.animateButton(this.buttons[3]);
-					break;
-			}
-
+		if (i < this.sequenceGame.length) {
 			this.game.time.events.add(
-				Phaser.Timer.SECOND * 3,
-				this.playSequence,
+				Phaser.Timer.SECOND * 1,
+				this.auxiliar,
 				this,
-				sequence,
-				count + 1
+				i
 			);
-		}
-		// this.game.time.events.add(2000, this.playSequence, this);
-	},
-};
+		} else {
+			this.game.time.events.add(
+				Phaser.Timer.SECOND * 1,
+				this.turnoJugador,
+				this
+			)
 
-function getRndInteger(min, max) {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+		}
+
+		this.gameTurn = false;
+	},
+	auxiliar: function (i) {
+		console.log(`test`, i);
+		switch (this.sequenceGame[i]) {
+			case 'yellowBtn':
+				this.animateButton(this.buttons[0]);
+				break;
+			case 'blueBtn':
+				this.animateButton(this.buttons[1]);
+				break;
+			case 'redBtn':
+				this.animateButton(this.buttons[2]);
+				break;
+			case 'greenBtn':
+				this.animateButton(this.buttons[3]);
+				break;
+		}
+		this.playSequence(i + 1)
+	},
+	turnoJugador: function () {
+		this.playerTurn = true;
+		console.log(`Turno del jugador`);
+
+	},
+	checkArrays: function (button) {
+		console.log(`Revisa jugada`);
+		this.sequencePlayer.push(button);
+		console.log(`SP: `, this.sequencePlayer);
+
+		var playerS = JSON.stringify(this.sequencePlayer[this.posicion])
+		var gameS = JSON.stringify(this.sequenceGame[this.posicion])
+
+		console.log(`p: `, playerS, ` g: `, gameS);
+
+		if (playerS === gameS && this.posicion + 1 == this.sequenceGame.length) {
+			console.log(`Win`);
+			this.playerTurn = false;
+			this.sequencePlayer = []
+			this.posicion = 0;
+			this.createSequence()
+		} else if (playerS != gameS) {
+			this.game.state.start('GameState');
+		} else {
+			this.posicion++;
+		}
+
+	}
+};
