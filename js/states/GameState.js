@@ -12,6 +12,11 @@ SimonGame.GameState = {
 		// this.load.image('ground', 'assets2/images/ground.png');
 		this.load.image('base', 'assets/images/fondoNivel.png');
 		this.load.image('background', 'assets/images/fondo.jpg');
+		this.load.image('1', 'assets/images/1.png');
+		this.load.image('2', 'assets/images/2.png');
+		this.load.image('3', 'assets/images/3.png');
+		this.load.image('go', 'assets/images/go.png');
+
 
 		this.load.spritesheet(
 			'yellowBtn',
@@ -145,12 +150,12 @@ SimonGame.GameState = {
 		this.sequenceGame = [];
 		this.sequencePlayer = [];
 		this.posicion = 0;
-
-		this.game.time.events.add(
-			Phaser.Timer.SECOND * 3,
-			this.createSequence,
-			this
-		);
+		this.conteoInicial()
+		// this.game.time.events.add(
+		// 	Phaser.Timer.SECOND * 3,
+		// 	this.createSequence,
+		// 	this
+		// );
 	},
 	update: function () { },
 	animateButton: function (sprite, event) {
@@ -242,6 +247,53 @@ SimonGame.GameState = {
 		} else {
 			this.posicion++;
 		}
+
+	},
+	conteoInicial: function () {
+		var num1 = this.add.sprite(this.game.world.centerX, this.game.world.centerY, '1')
+		var num2 = this.add.sprite(this.game.world.centerX, this.game.world.centerY, '2')
+		var num3 = this.add.sprite(this.game.world.centerX, this.game.world.centerY, '3')
+		var go = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'go')
+		num1.alpha = 0
+		num2.alpha = 0
+		go.alpha = 0
+		num1.anchor.setTo(0.5)
+		num2.anchor.setTo(0.5)
+		num3.anchor.setTo(0.5)
+		go.anchor.setTo(0.5)
+
+		var movimiento3 = this.game.add.tween(num3.scale)
+		var movimiento2 = this.game.add.tween(num2.scale)
+		var movimiento1 = this.game.add.tween(num1.scale)
+		var movimientoGo = this.game.add.tween(go.scale)
+		movimiento3.to({ x: 4, y: 4 }, 450)
+		movimiento3.to({ x: 1, y: 1 }, 450)
+		movimiento2.to({ x: 4, y: 4 }, 450)
+		movimiento2.to({ x: 1, y: 1 }, 450)
+		movimiento1.to({ x: 4, y: 4 }, 450)
+		movimiento1.to({ x: 1, y: 1 }, 450)
+		movimientoGo.to({ x: 4, y: 4 }, 450)
+		movimientoGo.to({ x: 1, y: 1 }, 450)
+		movimiento3.onComplete.add(() => {
+			num3.destroy()
+			num2.alpha = 1
+			movimiento2.start()
+		})
+		movimiento2.onComplete.add(() => {
+			num2.destroy()
+			num1.alpha = 1
+			movimiento1.start()
+		})
+		movimiento1.onComplete.add(() => {
+			num1.destroy()
+			go.alpha = 1
+			movimientoGo.start()
+		})
+		movimientoGo.onComplete.add(() => {
+			go.destroy()
+			this.createSequence()
+		})
+		movimiento3.start()
 
 	}
 };
