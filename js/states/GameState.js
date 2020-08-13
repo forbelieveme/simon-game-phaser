@@ -111,78 +111,6 @@ SimonGame.GameState = {
 		this.score.anchor.setTo(0.5);
 		this.score.visible = true;
 
-		// this.yellowBtn = this.add.sprite(
-		// 	this.game.world.centerX + this.config.yellowSprite.x,
-		// 	this.game.world.centerY + this.config.yellowSprite.y,
-		// 	'yellowBtn',
-		// 	1
-		// );
-		// this.yellowBtn.scale.setTo(0.5);
-		// this.yellowBtn.anchor.setTo(1, 0);
-		// this.yellowBtn.inputEnabled = true;
-		// this.yellowBtn.input.pixelPerfectClick = true;
-		// this.yellowBtn.events.onInputDown.add(this.animateButton, this);
-		// this.yellowAnim = this.yellowBtn.animations.add(
-		// 	'animate',
-		// 	[2, 1],
-		// 	framePerSec,
-		// 	false
-		// );
-
-		// this.blueBtn = this.add.sprite(
-		// 	this.game.world.centerX + this.config.blueSprite.x,
-		// 	this.game.world.centerY + this.config.blueSprite.y,
-		// 	'blueBtn',
-		// 	1
-		// );
-		// this.blueBtn.scale.setTo(0.5);
-		// this.blueBtn.anchor.setTo(0, 0);
-		// this.blueBtn.inputEnabled = true;
-		// this.blueBtn.input.pixelPerfectClick = true;
-		// this.blueBtn.events.onInputDown.add(this.animateButton, this);
-		// this.blueAnim = this.blueBtn.animations.add(
-		// 	'animate',
-		// 	[2, 1],
-		// 	framePerSec,
-		// 	false
-		// );
-
-		// this.redBtn = this.add.sprite(
-		// 	this.game.world.centerX + this.config.redSprite.x,
-		// 	this.game.world.centerY + this.config.redSprite.y,
-		// 	'redBtn',
-		// 	1
-		// );
-		// this.redBtn.scale.setTo(0.5);
-		// this.redBtn.anchor.setTo(0, 1);
-		// this.redBtn.inputEnabled = true;
-		// this.redBtn.input.pixelPerfectClick = true;
-		// this.redBtn.events.onInputDown.add(this.animateButton, this);
-		// this.redAnim = this.redBtn.animations.add(
-		// 	'animate',
-		// 	[2, 1],
-		// 	framePerSec,
-		// 	false
-		// );
-
-		// this.greenBtn = this.add.sprite(
-		// 	this.game.world.centerX + this.config.greenSprite.x,
-		// 	this.game.world.centerY + this.config.greenSprite.y,
-		// 	'greenBtn',
-		// 	1
-		// );
-		// this.greenBtn.scale.setTo(0.5);
-		// this.greenBtn.anchor.setTo(1, 1);
-		// this.greenBtn.inputEnabled = true;
-		// this.greenBtn.input.pixelPerfectClick = true;
-		// this.greenBtn.events.onInputDown.add(this.animateButton, this);
-		// this.greenAnim = this.greenBtn.animations.add(
-		// 	'animate',
-		// 	[2, 1],
-		// 	framePerSec,
-		// 	false
-		// );
-
 		this.buttons = this.game.add.group();
 		var button;
 		this.anims = [];
@@ -239,8 +167,7 @@ SimonGame.GameState = {
 		}
 	},
 	createSequence: function () {
-		console.log(`buttons: `, this.buttonArr);
-		
+
 		this.sequenceGame.push(
 			this.buttonArr[this.game.rnd.integerInRange(0, 3)].key
 		);
@@ -327,13 +254,14 @@ SimonGame.GameState = {
 		var movimiento2 = this.game.add.tween(num2.scale)
 		var movimiento1 = this.game.add.tween(num1.scale)
 		var movimientoGo = this.game.add.tween(go.scale)
-		movimiento3.to({ x: 4, y: 4 }, 450)
+		var escalaConteo = 2.2
+		movimiento3.to({ x: escalaConteo, y: escalaConteo }, 450)
 		movimiento3.to({ x: 1, y: 1 }, 450)
-		movimiento2.to({ x: 4, y: 4 }, 450)
+		movimiento2.to({ x: escalaConteo, y: escalaConteo }, 450)
 		movimiento2.to({ x: 1, y: 1 }, 450)
-		movimiento1.to({ x: 4, y: 4 }, 450)
+		movimiento1.to({ x: escalaConteo, y: escalaConteo }, 450)
 		movimiento1.to({ x: 1, y: 1 }, 450)
-		movimientoGo.to({ x: 4, y: 4 }, 450)
+		movimientoGo.to({ x: escalaConteo, y: escalaConteo }, 450)
 		movimientoGo.to({ x: 1, y: 1 }, 450)
 		movimiento3.onComplete.add(() => {
 			num3.destroy()
