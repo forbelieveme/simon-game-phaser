@@ -1,24 +1,36 @@
 {
-	"greenSprite": {
-		"x": 8,
-		"y": 1
-	},
-	"blueSprite": {
-		"x": -4,
-		"y": -13
-	},
-	"redSprite": {
-		"x": -5,
-		"y": 5
-	},
-	"yellowSprite": {
-		"x": 6,
-		"y": -12
-	},
 	"buttonData": [
-		{ "key": "yellowBtn", "x": 6, "y": -12, "audio": "yellowSound" },
-		{ "key": "blueBtn", "x": -4, "y": -13, "audio": "blueSound" },
-		{ "key": "redBtn", "x": -5, "y": 5, "audio": "redSound" },
-		{ "key": "greenBtn", "x": 8, "y": 1, "audio": "greenSound" }
+		{
+			"key": "yellowBtn",
+			"x": 6,
+			"y": -12,
+			"audio": "yellowSound",
+			"anchorX": 1,
+			"anchorY": 0
+		},
+		{
+			"key": "blueBtn",
+			"x": -4,
+			"y": -13,
+			"audio": "blueSound",
+			"anchorX": 0,
+			"anchorY": 0
+		},
+		{
+			"key": "redBtn",
+			"x": -5,
+			"y": 5,
+			"audio": "redSound",
+			"anchorX": 0,
+			"anchorY": 1
+		},
+		{
+			"key": "greenBtn",
+			"x": 8,
+			"y": 1,
+			"audio": "greenSound",
+			"anchorX": 1,
+			"anchorY": 1
+		}
 	]
 }
