@@ -1,12 +1,14 @@
 var SimonGame = SimonGame || {};
 
 SimonGame.GameState = {
-	init: function () {
+	init: function (highScore) {
 		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		this.scale.pageAlignHorizontally = true;
 		this.scale.pageAlignVertically = true;
 
 		// this.stage.disableVisibilityChange = true;
+
+		this.highScore = highScore
 	},
 	preload: function () {
 		// this.load.image('ground', 'assets2/images/ground.png');
@@ -32,6 +34,14 @@ SimonGame.GameState = {
 		this.load.audio('greenSound', [
 			'assets/audio/mi.ogg',
 			'assets/audio/mi.mp3',
+		]);
+		this.load.audio('winSound', [
+			'assets/audio/win.ogg',
+			'assets/audio/win.mp3',
+		]);
+		this.load.audio('loseSound', [
+			'assets/audio/lose.ogg',
+			'assets/audio/lose.mp3',
 		]);
 
 
@@ -101,14 +111,23 @@ SimonGame.GameState = {
 			fill: '#000',
 			align: 'center',
 		};
-		this.score = this.game.add.text(
+		this.scoreText = this.game.add.text(
 			this.game.world.centerX + 145,
 			42,
 			'',
 			style
 		);
-		this.score.anchor.setTo(0.5);
-		this.score.visible = true;
+		this.scoreText.anchor.setTo(0.5);
+		this.scoreText.visible = true;
+
+		this.highScoreText = this.game.add.text(
+			this.game.world.centerX - 145,
+			42,
+			this.highScore,
+			style
+		);
+		this.highScoreText.anchor.setTo(0.5);
+		this.highScoreText.visible = true;
 
 		this.buttons = this.game.add.group();
 		var button;
@@ -136,6 +155,9 @@ SimonGame.GameState = {
 			this.anims.push(button.animations.add('animate', [2, 1], framePerSec, false));
 			this.buttonArr.push(button);
 		}, this);
+
+		this.winSound = this.game.add.audio('winSound')
+		this.loseSound = this.game.add.audio('loseSound')
 
 		// this.anims = [this.yellowAnim, this.blueAnim, this.redAnim, this.greenAnim];
 		// this.buttons = [this.yellowBtn, this.blueBtn, this.redBtn, this.greenBtn];
@@ -223,15 +245,37 @@ SimonGame.GameState = {
 
 
 		if (playerS === gameS && this.posicion + 1 == this.sequenceGame.length) {
-			console.log(`Win`, this.sequenceGame.length);
-			this.score.setText(this.sequenceGame.length);
+			this.game.time.events.add(
+				Phaser.Timer.SECOND * 0.5,
+				() => {
+					console.log(`Win`, this.sequenceGame.length);
+					this.winSound.play()
+					this.scoreText.setText(this.sequenceGame.length);
 
-			this.playerTurn = false;
-			this.sequencePlayer = []
-			this.posicion = 0;
-			this.createSequence()
+					this.playerTurn = false;
+					this.sequencePlayer = []
+					this.posicion = 0;
+					this.createSequence()
+
+				}, this
+			)
+			// console.log(`Win`, this.sequenceGame.length);
+			// this.scoreText.setText(this.sequenceGame.length);
+
+			// this.playerTurn = false;
+			// this.sequencePlayer = []
+			// this.posicion = 0;
+			// this.createSequence()
 		} else if (playerS != gameS) {
-			this.game.state.start('GameState');
+			
+			this.game.time.events.add(
+				Phaser.Timer.SECOND * 1,
+				() => {
+					this.loseSound.play()
+
+					this.game.state.start('GameState', true, false, this.sequenceGame.length - 1);
+				}, this
+			)
 		} else {
 			this.posicion++;
 		}
