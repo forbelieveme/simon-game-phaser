@@ -18,6 +18,7 @@ SimonGame.GameState = {
 		this.load.image('1', 'assets/images/1.png');
 		this.load.image('2', 'assets/images/2.png');
 		this.load.image('3', 'assets/images/3.png');
+		this.load.image('juega', 'assets/images/vuelve_a_jugar.png');
 
 		this.load.audio('yellowSound', [
 			'assets/audio/do.ogg',
@@ -106,6 +107,8 @@ SimonGame.GameState = {
 		this.tablero.anchor.setTo(0.5);
 		this.tablero.scale.setTo(0.8);
 
+
+
 		var style = {
 			font: 'bold 25pt Arial',
 			fill: '#000',
@@ -114,7 +117,7 @@ SimonGame.GameState = {
 		this.scoreText = this.game.add.text(
 			this.game.world.centerX + 145,
 			42,
-			'',
+			'0',
 			style
 		);
 		this.scoreText.anchor.setTo(0.5);
@@ -171,6 +174,8 @@ SimonGame.GameState = {
 	},
 	update: function () { },
 	animateButton: function (sprite, event) {
+		console.log(`Blocked:`, this.uiBlocked);
+		
 		if (!this.uiBlocked) {
 			this.uiBlocked = true;
 			if (this.playerTurn) {
@@ -246,18 +251,9 @@ SimonGame.GameState = {
 
 		if (playerS === gameS && this.posicion + 1 == this.sequenceGame.length) {
 			this.game.time.events.add(
-				Phaser.Timer.SECOND * 0.5,
-				() => {
-					console.log(`Win`, this.sequenceGame.length);
-					this.winSound.play()
-					this.scoreText.setText(this.sequenceGame.length);
-
-					this.playerTurn = false;
-					this.sequencePlayer = []
-					this.posicion = 0;
-					this.createSequence()
-
-				}, this
+				Phaser.Timer.SECOND * 0.4,
+				this.win,
+				this
 			)
 			// console.log(`Win`, this.sequenceGame.length);
 			// this.scoreText.setText(this.sequenceGame.length);
@@ -267,14 +263,11 @@ SimonGame.GameState = {
 			// this.posicion = 0;
 			// this.createSequence()
 		} else if (playerS != gameS) {
-			
+			this.uiBlocked = true
 			this.game.time.events.add(
-				Phaser.Timer.SECOND * 1,
-				() => {
-					this.loseSound.play()
-
-					this.game.state.start('GameState', true, false, this.sequenceGame.length - 1);
-				}, this
+				Phaser.Timer.SECOND * 0.3,
+				this.lose,
+				this
 			)
 		} else {
 			this.posicion++;
@@ -317,5 +310,31 @@ SimonGame.GameState = {
 		})
 		movimiento3.start()
 
+	},
+	win: function () {
+		console.log(`Win`, this.sequenceGame.length);
+		this.winSound.play()
+		this.scoreText.setText(this.sequenceGame.length);
+
+		this.playerTurn = false;
+		this.sequencePlayer = []
+		this.posicion = 0;
+		this.createSequence()
+	},
+	lose: function () {
+		this.loseSound.play()
+		this.uiBlocked = true
+		this.juega = this.add.sprite(
+			this.game.world.centerX,
+			this.game.world.height - 100,
+			'juega'
+		);
+		this.juega.anchor.setTo(0.5);
+		this.juega.scale.setTo(0.3);
+		this.juega.inputEnabled = true;
+		this.juega.events.onInputDown.add(this.restart, this);
+	},
+	restart: function () {
+		this.game.state.start('GameState', true, false, this.sequenceGame.length - 1);
 	}
 };
