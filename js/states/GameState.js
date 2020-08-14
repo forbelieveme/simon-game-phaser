@@ -16,7 +16,6 @@ SimonGame.GameState = {
 		this.load.image('1', 'assets/images/1.png');
 		this.load.image('2', 'assets/images/2.png');
 		this.load.image('3', 'assets/images/3.png');
-		this.load.image('go', 'assets/images/go.png');
 
 		this.load.audio('yellowSound', [
 			'assets/audio/do.ogg',
@@ -157,6 +156,7 @@ SimonGame.GameState = {
 			}
 
 			sprite.play('animate');
+			sprite.customParams.sound.play();
 
 			this.anims.forEach((element) => {
 				element.onComplete.add(() => {
@@ -241,19 +241,15 @@ SimonGame.GameState = {
 		var num1 = this.add.sprite(this.game.world.centerX, this.game.world.centerY, '1')
 		var num2 = this.add.sprite(this.game.world.centerX, this.game.world.centerY, '2')
 		var num3 = this.add.sprite(this.game.world.centerX, this.game.world.centerY, '3')
-		var go = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'go')
 		num1.alpha = 0
 		num2.alpha = 0
-		go.alpha = 0
 		num1.anchor.setTo(0.5)
 		num2.anchor.setTo(0.5)
 		num3.anchor.setTo(0.5)
-		go.anchor.setTo(0.5)
 
 		var movimiento3 = this.game.add.tween(num3.scale)
 		var movimiento2 = this.game.add.tween(num2.scale)
 		var movimiento1 = this.game.add.tween(num1.scale)
-		var movimientoGo = this.game.add.tween(go.scale)
 		var escalaConteo = 2.2
 		movimiento3.to({ x: escalaConteo, y: escalaConteo }, 450)
 		movimiento3.to({ x: 1, y: 1 }, 450)
@@ -261,8 +257,6 @@ SimonGame.GameState = {
 		movimiento2.to({ x: 1, y: 1 }, 450)
 		movimiento1.to({ x: escalaConteo, y: escalaConteo }, 450)
 		movimiento1.to({ x: 1, y: 1 }, 450)
-		movimientoGo.to({ x: escalaConteo, y: escalaConteo }, 450)
-		movimientoGo.to({ x: 1, y: 1 }, 450)
 		movimiento3.onComplete.add(() => {
 			num3.destroy()
 			num2.alpha = 1
@@ -275,11 +269,6 @@ SimonGame.GameState = {
 		})
 		movimiento1.onComplete.add(() => {
 			num1.destroy()
-			go.alpha = 1
-			movimientoGo.start()
-		})
-		movimientoGo.onComplete.add(() => {
-			go.destroy()
 			this.createSequence()
 		})
 		movimiento3.start()
