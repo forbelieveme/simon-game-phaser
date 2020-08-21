@@ -5,10 +5,10 @@ SimonGame.GameState = {
 		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		this.scale.pageAlignHorizontally = true;
 		this.scale.pageAlignVertically = true;
+		this.scale.forceLandscape = true;
 
 		// this.stage.disableVisibilityChange = true;
-
-		this.highScore = highScore
+		this.highScore = highScore || 0
 	},
 	preload: function () {
 		// this.load.image('ground', 'assets2/images/ground.png');
@@ -108,11 +108,13 @@ SimonGame.GameState = {
 		this.tablero.scale.setTo(0.8);
 
 
-
+		// #376f7c
 		var style = {
 			font: 'bold 25pt Arial',
-			fill: '#000',
+			fill: '#ffffff',
 			align: 'center',
+			stroke: '#376f7c',
+			strokeThickness: 5
 		};
 		this.scoreText = this.game.add.text(
 			this.game.world.centerX + 145,
@@ -124,7 +126,7 @@ SimonGame.GameState = {
 		this.scoreText.visible = true;
 
 		this.highScoreText = this.game.add.text(
-			this.game.world.centerX - 145,
+			this.game.world.centerX - 58,
 			42,
 			this.highScore,
 			style
@@ -162,9 +164,6 @@ SimonGame.GameState = {
 		this.winSound = this.game.add.audio('winSound')
 		this.loseSound = this.game.add.audio('loseSound')
 
-		// this.anims = [this.yellowAnim, this.blueAnim, this.redAnim, this.greenAnim];
-		// this.buttons = [this.yellowBtn, this.blueBtn, this.redBtn, this.greenBtn];
-
 		this.uiBlocked = false;
 		this.playerTurn = false;
 		this.sequenceGame = [];
@@ -174,34 +173,30 @@ SimonGame.GameState = {
 	},
 	update: function () { },
 	animateButton: function (sprite, event) {
-		console.log(`Blocked:`, this.uiBlocked);
-		
+		console.log(`Blocked:`, !this.uiBlocked);
+
 		if (!this.uiBlocked) {
 			this.uiBlocked = true;
 			if (this.playerTurn) {
 				this.checkArrays(sprite.key)
 			}
-
-			sprite.play('animate');
-			sprite.customParams.sound.play();
-
 			this.anims.forEach((element) => {
 				element.onComplete.add(() => {
 					this.uiBlocked = false;
 				}, this);
 			}, this);
 
+			sprite.play('animate');
+			sprite.customParams.sound.play();
 		}
 	},
 	createSequence: function () {
-
 		this.sequenceGame.push(
 			this.buttonArr[this.game.rnd.integerInRange(0, 3)].key
 		);
 		this.playSequence(0)
 	},
 	playSequence: function (i) {
-
 		if (i < this.sequenceGame.length) {
 			this.game.time.events.add(
 				Phaser.Timer.SECOND * 1,
@@ -216,7 +211,6 @@ SimonGame.GameState = {
 				this
 			)
 		}
-
 		this.gameTurn = false;
 	},
 	auxiliar: function (i) {
@@ -247,25 +241,19 @@ SimonGame.GameState = {
 
 		var playerS = JSON.stringify(this.sequencePlayer[this.posicion])
 		var gameS = JSON.stringify(this.sequenceGame[this.posicion])
+		
 
 
 		if (playerS === gameS && this.posicion + 1 == this.sequenceGame.length) {
 			this.game.time.events.add(
-				Phaser.Timer.SECOND * 0.4,
+				Phaser.Timer.SECOND * 0.65,
 				this.win,
 				this
 			)
-			// console.log(`Win`, this.sequenceGame.length);
-			// this.scoreText.setText(this.sequenceGame.length);
-
-			// this.playerTurn = false;
-			// this.sequencePlayer = []
-			// this.posicion = 0;
-			// this.createSequence()
 		} else if (playerS != gameS) {
 			this.uiBlocked = true
 			this.game.time.events.add(
-				Phaser.Timer.SECOND * 0.3,
+				Phaser.Timer.SECOND * 0.65,
 				this.lose,
 				this
 			)
@@ -326,7 +314,7 @@ SimonGame.GameState = {
 		this.uiBlocked = true
 		this.juega = this.add.sprite(
 			this.game.world.centerX,
-			this.game.world.height - 100,
+			this.game.world.height - 70,
 			'juega'
 		);
 		this.juega.anchor.setTo(0.5);
@@ -335,6 +323,9 @@ SimonGame.GameState = {
 		this.juega.events.onInputDown.add(this.restart, this);
 	},
 	restart: function () {
-		this.game.state.start('GameState', true, false, this.sequenceGame.length - 1);
+		var max;
+		(this.highScore > this.sequenceGame.length - 1)
+			? max = this.highScore : max = this.sequenceGame.length - 1;
+		this.game.state.start('GameState', true, false, max);
 	}
 };
