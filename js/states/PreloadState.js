@@ -20,11 +20,10 @@ SimonGame.PreloadState = {
 		this.load.image('base', 'assets/images/fondoNivel.png');
 		this.load.image('background', 'assets/images/fondo.jpg');
 		this.load.image('tablero', 'assets/images/panelInfoNivel.png');
-		this.load.image('1', 'assets/images/1.png');
-		this.load.image('2', 'assets/images/2.png');
-		this.load.image('3', 'assets/images/3.png');
-		this.load.image('juega', 'assets/images/vuelve_a_jugar.png');
-		this.load.image('turno', 'assets/images/tu-turno.png');
+		this.load.image('maxPuntaje', 'assets/images/panelInfoNivel1.png');
+		this.load.image('puntaje', 'assets/images/panelInfoNivel2.png');
+		this.load.image('juega', 'assets/images/volverJugar.png');
+		this.load.image('turno', 'assets/images/tuTurno.png');
 
 		this.load.audio('yellowSound', [
 			'assets/audio/do.ogg',
@@ -55,8 +54,8 @@ SimonGame.PreloadState = {
 		this.load.spritesheet(
 			'yellowBtn',
 			'assets/images/sheetBtnAmarNota.png',
-			287,
-			293,
+			248,
+			248,
 			3,
 			1,
 			1
@@ -64,8 +63,8 @@ SimonGame.PreloadState = {
 		this.load.spritesheet(
 			'blueBtn',
 			'assets/images/sheetBtnAzulNota.png',
-			287,
-			293,
+			248,
+			248,
 			3,
 			1,
 			1
@@ -73,8 +72,8 @@ SimonGame.PreloadState = {
 		this.load.spritesheet(
 			'redBtn',
 			'assets/images/sheetBtnRojoNota.png',
-			287,
-			293,
+			248,
+			248,
 			3,
 			1,
 			1
@@ -82,8 +81,17 @@ SimonGame.PreloadState = {
 		this.load.spritesheet(
 			'greenBtn',
 			'assets/images/sheetBtnVerdeNota.png',
-			287,
-			293,
+			248,
+			248,
+			3,
+			1,
+			1
+		);
+		this.load.spritesheet(
+			'contador',
+			'assets/images/sheetContador.png',
+			118,
+			160,
 			3,
 			1,
 			1

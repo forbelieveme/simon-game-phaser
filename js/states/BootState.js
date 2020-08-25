@@ -12,6 +12,7 @@ SimonGame.BootState = {
 	},
 	create: function () {
 		this.game.stage.backgroundColor = '#fff';
+		this.game.add.text(0, 0, "hack", {font:"1px Muro", fill:"#FFFFFF"});
 
 		this.state.start('PreloadState');
 	},

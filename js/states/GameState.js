@@ -100,26 +100,34 @@ SimonGame.GameState = {
 		this.base.anchor.setTo(0.5);
 		this.base.scale.setTo(0.5);
 
-		this.tablero = this.add.sprite(
-			this.game.world.centerX,
-			40,
-			'tablero'
+		this.maxPuntaje = this.add.sprite(
+			this.game.world.centerX + 100,
+			50,
+			'maxPuntaje'
 		);
-		this.tablero.anchor.setTo(0.5);
-		this.tablero.scale.setTo(0.8);
+		this.maxPuntaje.anchor.setTo(0.5);
+		this.maxPuntaje.scale.setTo(0.8);
+
+		this.puntaje = this.add.sprite(
+			this.game.world.centerX - 100,
+			50,
+			'puntaje'
+		);
+		this.puntaje.anchor.setTo(0.5);
+		this.puntaje.scale.setTo(0.8);
 
 
 		// #376f7c
 		var style = {
-			font: 'bold 25pt Arial',
-			fill: '#ffffff',
+			font: '25pt Muro',
+			fill: '#00000',
 			align: 'center',
-			stroke: '#376f7c',
-			strokeThickness: 5
+			// stroke: '#376f7c',
+			// strokeThickness: 5
 		};
 		this.scoreText = this.game.add.text(
-			this.game.world.centerX + 145,
-			42,
+			this.game.world.centerX - 100,
+			70,
 			'0',
 			style
 		);
@@ -127,8 +135,8 @@ SimonGame.GameState = {
 		this.scoreText.visible = true;
 
 		this.highScoreText = this.game.add.text(
-			this.game.world.centerX - 58,
-			42,
+			this.game.world.centerX + 100,
+			70,
 			this.highScore,
 			style
 		);
@@ -137,11 +145,11 @@ SimonGame.GameState = {
 
 		this.turno = this.add.sprite(
 			this.game.world.centerX,
-			this.game.world.centerY,
+			this.game.world.centerY - 6,
 			'turno'
 		);
 		this.turno.anchor.setTo(0.5);
-		this.turno.scale.setTo(0.15);
+		this.turno.scale.setTo(0.5);
 		this.turno.alpha = 0;
 
 		this.buttons = this.game.add.group();
@@ -274,9 +282,12 @@ SimonGame.GameState = {
 
 	},
 	conteoInicial: function () {
-		var num1 = this.add.sprite(this.game.world.centerX, this.game.world.centerY, '1')
-		var num2 = this.add.sprite(this.game.world.centerX, this.game.world.centerY, '2')
-		var num3 = this.add.sprite(this.game.world.centerX, this.game.world.centerY, '3')
+		var num1 = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'contador')
+		num1.frame = 2
+		var num2 = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'contador')
+		num2.frame = 1
+		var num3 = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'contador')
+		num3.frame = 0
 		num1.alpha = 0
 		num2.alpha = 0
 		num1.anchor.setTo(0.5)
@@ -330,7 +341,7 @@ SimonGame.GameState = {
 			'juega'
 		);
 		this.juega.anchor.setTo(0.5);
-		this.juega.scale.setTo(0.3);
+		this.juega.scale.setTo(1);
 		this.juega.inputEnabled = true;
 		this.juega.events.onInputDown.add(this.restart, this);
 	},
