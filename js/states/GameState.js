@@ -19,6 +19,7 @@ SimonGame.GameState = {
 		this.load.image('2', 'assets/images/2.png');
 		this.load.image('3', 'assets/images/3.png');
 		this.load.image('juega', 'assets/images/vuelve_a_jugar.png');
+		this.load.image('turno', 'assets/images/tu-turno.png');
 
 		this.load.audio('yellowSound', [
 			'assets/audio/do.ogg',
@@ -134,6 +135,15 @@ SimonGame.GameState = {
 		this.highScoreText.anchor.setTo(0.5);
 		this.highScoreText.visible = true;
 
+		this.turno = this.add.sprite(
+			this.game.world.centerX,
+			this.game.world.centerY,
+			'turno'
+		);
+		this.turno.anchor.setTo(0.5);
+		this.turno.scale.setTo(0.15);
+		this.turno.alpha = 0;
+
 		this.buttons = this.game.add.group();
 		var button;
 		this.anims = [];
@@ -233,6 +243,7 @@ SimonGame.GameState = {
 	turnoJugador: function () {
 		this.playerTurn = true;
 		console.log(`Turno del jugador`);
+		this.turno.alpha = 1
 
 	},
 	checkArrays: function (button) {
@@ -241,7 +252,7 @@ SimonGame.GameState = {
 
 		var playerS = JSON.stringify(this.sequencePlayer[this.posicion])
 		var gameS = JSON.stringify(this.sequenceGame[this.posicion])
-		
+
 
 
 		if (playerS === gameS && this.posicion + 1 == this.sequenceGame.length) {
@@ -301,6 +312,7 @@ SimonGame.GameState = {
 	},
 	win: function () {
 		console.log(`Win`, this.sequenceGame.length);
+		this.turno.alpha = 0;
 		this.winSound.play()
 		this.scoreText.setText(this.sequenceGame.length);
 
