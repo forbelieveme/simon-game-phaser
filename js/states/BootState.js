@@ -1,4 +1,6 @@
-var BootState = {
+var SimonGame = SimonGame || {};
+
+SimonGame.BootState = {
 	init: function () {
 		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 

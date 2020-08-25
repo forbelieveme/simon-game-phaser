@@ -2,9 +2,9 @@ var SimonGame = SimonGame || {};
 
 SimonGame.GameState = {
 	init: function (highScore) {
-		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-		this.scale.pageAlignHorizontally = true;
-		this.scale.pageAlignVertically = true;
+		// this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+		// this.scale.pageAlignHorizontally = true;
+		// this.scale.pageAlignVertically = true;
 		this.scale.forceLandscape = true;
 
 		// this.stage.disableVisibilityChange = true;
@@ -12,79 +12,79 @@ SimonGame.GameState = {
 	},
 	preload: function () {
 		// this.load.image('ground', 'assets2/images/ground.png');
-		this.load.image('base', 'assets/images/fondoNivel.png');
-		this.load.image('background', 'assets/images/fondo.jpg');
-		this.load.image('tablero', 'assets/images/panelInfoNivel.png');
-		this.load.image('1', 'assets/images/1.png');
-		this.load.image('2', 'assets/images/2.png');
-		this.load.image('3', 'assets/images/3.png');
-		this.load.image('juega', 'assets/images/vuelve_a_jugar.png');
-		this.load.image('turno', 'assets/images/tu-turno.png');
+		// this.load.image('base', 'assets/images/fondoNivel.png');
+		// this.load.image('background', 'assets/images/fondo.jpg');
+		// this.load.image('tablero', 'assets/images/panelInfoNivel.png');
+		// this.load.image('1', 'assets/images/1.png');
+		// this.load.image('2', 'assets/images/2.png');
+		// this.load.image('3', 'assets/images/3.png');
+		// this.load.image('juega', 'assets/images/vuelve_a_jugar.png');
+		// this.load.image('turno', 'assets/images/tu-turno.png');
 
-		this.load.audio('yellowSound', [
-			'assets/audio/do.ogg',
-			'assets/audio/do.mp3',
-		]);
-		this.load.audio('blueSound', [
-			'assets/audio/fa.ogg',
-			'assets/audio/fa.mp3',
-		]);
-		this.load.audio('redSound', [
-			'assets/audio/la.ogg',
-			'assets/audio/la.mp3',
-		]);
-		this.load.audio('greenSound', [
-			'assets/audio/mi.ogg',
-			'assets/audio/mi.mp3',
-		]);
-		this.load.audio('winSound', [
-			'assets/audio/win.ogg',
-			'assets/audio/win.mp3',
-		]);
-		this.load.audio('loseSound', [
-			'assets/audio/lose.ogg',
-			'assets/audio/lose.mp3',
-		]);
+		// this.load.audio('yellowSound', [
+		// 	'assets/audio/do.ogg',
+		// 	'assets/audio/do.mp3',
+		// ]);
+		// this.load.audio('blueSound', [
+		// 	'assets/audio/fa.ogg',
+		// 	'assets/audio/fa.mp3',
+		// ]);
+		// this.load.audio('redSound', [
+		// 	'assets/audio/la.ogg',
+		// 	'assets/audio/la.mp3',
+		// ]);
+		// this.load.audio('greenSound', [
+		// 	'assets/audio/mi.ogg',
+		// 	'assets/audio/mi.mp3',
+		// ]);
+		// this.load.audio('winSound', [
+		// 	'assets/audio/win.ogg',
+		// 	'assets/audio/win.mp3',
+		// ]);
+		// this.load.audio('loseSound', [
+		// 	'assets/audio/lose.ogg',
+		// 	'assets/audio/lose.mp3',
+		// ]);
 
 
-		this.load.spritesheet(
-			'yellowBtn',
-			'assets/images/sheetBtnAmarNota.png',
-			287,
-			293,
-			3,
-			1,
-			1
-		);
-		this.load.spritesheet(
-			'blueBtn',
-			'assets/images/sheetBtnAzulNota.png',
-			287,
-			293,
-			3,
-			1,
-			1
-		);
-		this.load.spritesheet(
-			'redBtn',
-			'assets/images/sheetBtnRojoNota.png',
-			287,
-			293,
-			3,
-			1,
-			1
-		);
-		this.load.spritesheet(
-			'greenBtn',
-			'assets/images/sheetBtnVerdeNota.png',
-			287,
-			293,
-			3,
-			1,
-			1
-		);
+		// this.load.spritesheet(
+		// 	'yellowBtn',
+		// 	'assets/images/sheetBtnAmarNota.png',
+		// 	287,
+		// 	293,
+		// 	3,
+		// 	1,
+		// 	1
+		// );
+		// this.load.spritesheet(
+		// 	'blueBtn',
+		// 	'assets/images/sheetBtnAzulNota.png',
+		// 	287,
+		// 	293,
+		// 	3,
+		// 	1,
+		// 	1
+		// );
+		// this.load.spritesheet(
+		// 	'redBtn',
+		// 	'assets/images/sheetBtnRojoNota.png',
+		// 	287,
+		// 	293,
+		// 	3,
+		// 	1,
+		// 	1
+		// );
+		// this.load.spritesheet(
+		// 	'greenBtn',
+		// 	'assets/images/sheetBtnVerdeNota.png',
+		// 	287,
+		// 	293,
+		// 	3,
+		// 	1,
+		// 	1
+		// );
 
-		this.load.text('config', 'assets/data/simon.json');
+		// this.load.text('config', 'assets/data/simon.json');
 	},
 	create: function () {
 		var framePerSec = 5;

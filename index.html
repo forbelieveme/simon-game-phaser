@@ -7,8 +7,31 @@
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
-    
+    <body>
+        <div id="contenedor">
+            <section id="seccion_form">
+                <div class="centrar box">
+                    <img src="assets/images/LogoMenu.png" class="alinearImg" alt="logo terpel" />
+                    <form id="form_ingreso_usuario" class="alinearTexto" onsubmit="return false">
+                        <h1 class="bienvenidos">BIENVENID@</h1>
+                        <label for="" class="">Cédula</label>
+                        <input type="text" id="cedula" class="" />
+                        <h2 class="texto-info" id="info_form_ingreso_usuario"></h2>
+                        <button id="btn_form_ingreso_usuario" class="btn" onclick="ValFormIngresoUsuario();">
+                            CONTINUAR
+                        </button>
+                    </form>
+                </div>
+            </section>
+            <section id="seccion_juego">
+                <div id="game_block" class="centrar"></div>
+            </section>
+        </div>
+
+
     <script src="js/phaser.js"></script>
+	<script src="js/states/BootState.js"></script>
+	<script src="js/states/PreloadState.js"></script>
 	<script src="js/states/GameState.js"></script>
     <script src="js/main.js"></script>
 </body>
