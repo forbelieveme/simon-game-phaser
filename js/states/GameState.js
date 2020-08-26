@@ -5,21 +5,27 @@ SimonGame.GameState = {
 		// this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		// this.scale.pageAlignHorizontally = true;
 		// this.scale.pageAlignVertically = true;
-		this.scale.forceLandscape = true;
+		// this.scale.forceLandscape = true;
 
 		// this.stage.disableVisibilityChange = true;
 		this.highScore = highScore || 0
 	},
 	preload: function () {
-		// this.load.image('ground', 'assets2/images/ground.png');
+		// this.preloadBar = this.add.sprite(
+		// 	this.game.world.centerX,
+		// 	this.game.world.centerY + 128,
+		// 	'preloadBar'
+		// );
+		// this.preloadBar.anchor.setTo(0.5);
+		// this.load.setPreloadSprite(this.preloadBar);
+
 		// this.load.image('base', 'assets/images/fondoNivel.png');
 		// this.load.image('background', 'assets/images/fondo.jpg');
 		// this.load.image('tablero', 'assets/images/panelInfoNivel.png');
-		// this.load.image('1', 'assets/images/1.png');
-		// this.load.image('2', 'assets/images/2.png');
-		// this.load.image('3', 'assets/images/3.png');
-		// this.load.image('juega', 'assets/images/vuelve_a_jugar.png');
-		// this.load.image('turno', 'assets/images/tu-turno.png');
+		// this.load.image('maxPuntaje', 'assets/images/panelInfoNivel1.png');
+		// this.load.image('puntaje', 'assets/images/panelInfoNivel2.png');
+		// this.load.image('juega', 'assets/images/volverJugar.png');
+		// this.load.image('turno', 'assets/images/tuTurno.png');
 
 		// this.load.audio('yellowSound', [
 		// 	'assets/audio/do.ogg',
@@ -50,8 +56,8 @@ SimonGame.GameState = {
 		// this.load.spritesheet(
 		// 	'yellowBtn',
 		// 	'assets/images/sheetBtnAmarNota.png',
-		// 	287,
-		// 	293,
+		// 	248,
+		// 	248,
 		// 	3,
 		// 	1,
 		// 	1
@@ -59,8 +65,8 @@ SimonGame.GameState = {
 		// this.load.spritesheet(
 		// 	'blueBtn',
 		// 	'assets/images/sheetBtnAzulNota.png',
-		// 	287,
-		// 	293,
+		// 	248,
+		// 	248,
 		// 	3,
 		// 	1,
 		// 	1
@@ -68,8 +74,8 @@ SimonGame.GameState = {
 		// this.load.spritesheet(
 		// 	'redBtn',
 		// 	'assets/images/sheetBtnRojoNota.png',
-		// 	287,
-		// 	293,
+		// 	248,
+		// 	248,
 		// 	3,
 		// 	1,
 		// 	1
@@ -77,8 +83,17 @@ SimonGame.GameState = {
 		// this.load.spritesheet(
 		// 	'greenBtn',
 		// 	'assets/images/sheetBtnVerdeNota.png',
-		// 	287,
-		// 	293,
+		// 	248,
+		// 	248,
+		// 	3,
+		// 	1,
+		// 	1
+		// );
+		// this.load.spritesheet(
+		// 	'contador',
+		// 	'assets/images/sheetContador.png',
+		// 	118,
+		// 	160,
 		// 	3,
 		// 	1,
 		// 	1

@@ -51,3 +51,7 @@ body {
 	height: 20px;
 	color: #797d93;
 }
+
+html {
+	overflow-y: hidden;
+}
