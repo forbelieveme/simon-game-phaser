@@ -93,7 +93,7 @@ SimonGame.PreloadState = {
 			118,
 			160,
 			3,
-			1,
+			2,
 			1
 		);
 
