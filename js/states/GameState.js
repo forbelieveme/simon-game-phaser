@@ -1,5 +1,14 @@
 var SimonGame = SimonGame || {};
 
+/**
+    Hay que quitar la imagen de fondo solo dejar el color *******
+    los botones están descuadrados ******
+    bajarle el tamaño al botón de volver a jugar *******
+    bajarle tamaño al 3 2 1 ******
+    cuando la maquina haga la secuencia bloquear los botones
+    centrar login 
+ */
+
 SimonGame.GameState = {
 	init: function (highScore) {
 		// this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -10,102 +19,12 @@ SimonGame.GameState = {
 		// this.stage.disableVisibilityChange = true;
 		this.highScore = highScore || 0
 	},
-	preload: function () {
-		// this.preloadBar = this.add.sprite(
-		// 	this.game.world.centerX,
-		// 	this.game.world.centerY + 128,
-		// 	'preloadBar'
-		// );
-		// this.preloadBar.anchor.setTo(0.5);
-		// this.load.setPreloadSprite(this.preloadBar);
-
-		// this.load.image('base', 'assets/images/fondoNivel.png');
-		// this.load.image('background', 'assets/images/fondo.jpg');
-		// this.load.image('tablero', 'assets/images/panelInfoNivel.png');
-		// this.load.image('maxPuntaje', 'assets/images/panelInfoNivel1.png');
-		// this.load.image('puntaje', 'assets/images/panelInfoNivel2.png');
-		// this.load.image('juega', 'assets/images/volverJugar.png');
-		// this.load.image('turno', 'assets/images/tuTurno.png');
-
-		// this.load.audio('yellowSound', [
-		// 	'assets/audio/do.ogg',
-		// 	'assets/audio/do.mp3',
-		// ]);
-		// this.load.audio('blueSound', [
-		// 	'assets/audio/fa.ogg',
-		// 	'assets/audio/fa.mp3',
-		// ]);
-		// this.load.audio('redSound', [
-		// 	'assets/audio/la.ogg',
-		// 	'assets/audio/la.mp3',
-		// ]);
-		// this.load.audio('greenSound', [
-		// 	'assets/audio/mi.ogg',
-		// 	'assets/audio/mi.mp3',
-		// ]);
-		// this.load.audio('winSound', [
-		// 	'assets/audio/win.ogg',
-		// 	'assets/audio/win.mp3',
-		// ]);
-		// this.load.audio('loseSound', [
-		// 	'assets/audio/lose.ogg',
-		// 	'assets/audio/lose.mp3',
-		// ]);
-
-
-		// this.load.spritesheet(
-		// 	'yellowBtn',
-		// 	'assets/images/sheetBtnAmarNota.png',
-		// 	248,
-		// 	248,
-		// 	3,
-		// 	1,
-		// 	1
-		// );
-		// this.load.spritesheet(
-		// 	'blueBtn',
-		// 	'assets/images/sheetBtnAzulNota.png',
-		// 	248,
-		// 	248,
-		// 	3,
-		// 	1,
-		// 	1
-		// );
-		// this.load.spritesheet(
-		// 	'redBtn',
-		// 	'assets/images/sheetBtnRojoNota.png',
-		// 	248,
-		// 	248,
-		// 	3,
-		// 	1,
-		// 	1
-		// );
-		// this.load.spritesheet(
-		// 	'greenBtn',
-		// 	'assets/images/sheetBtnVerdeNota.png',
-		// 	248,
-		// 	248,
-		// 	3,
-		// 	1,
-		// 	1
-		// );
-		// this.load.spritesheet(
-		// 	'contador',
-		// 	'assets/images/sheetContador.png',
-		// 	118,
-		// 	160,
-		// 	3,
-		// 	1,
-		// 	1
-		// );
-
-		// this.load.text('config', 'assets/data/simon.json');
-	},
 	create: function () {
 		var framePerSec = 5;
 		this.config = JSON.parse(this.game.cache.getText('config'));
 
-		this.background = this.add.sprite(0, 0, 'background');
+		// this.background = this.add.sprite(0, 0, 'background');
+		this.game.stage.backgroundColor = "#314e5b";
 
 		this.base = this.add.sprite(
 			this.game.world.centerX,
@@ -186,11 +105,12 @@ SimonGame.GameState = {
 			button.anchor.setTo(element.anchorX, element.anchorY);
 			button.scale.setTo(0.5);
 
-			button.inputEnabled = true;
-			button.input.pixelPerfectClick = true;
+			// button.inputEnabled = true;
+			// button.input.pixelPerfectClick = true;
 			button.events.onInputDown.add(this.animateButton, this);
 
 			this.anims.push(button.animations.add('animate', [2, 1], framePerSec, false));
+			button.animations.add('animate2', [2, 1], 3, false);
 			this.buttonArr.push(button);
 		}, this);
 
@@ -206,30 +126,54 @@ SimonGame.GameState = {
 	},
 	update: function () { },
 	animateButton: function (sprite, event) {
-		console.log(`Blocked:`, !this.uiBlocked);
+		console.log(`Blocked:`, this.uiBlocked);
 
 		if (!this.uiBlocked) {
 			this.uiBlocked = true;
 			if (this.playerTurn) {
 				this.checkArrays(sprite.key)
-			}
-			this.anims.forEach((element) => {
-				element.onComplete.add(() => {
-					this.uiBlocked = false;
+				this.anims.forEach((element) => {
+					element.onComplete.add(() => {
+						this.uiBlocked = false;
+					}, this);
 				}, this);
-			}, this);
 
-			sprite.play('animate');
-			sprite.customParams.sound.play();
+				sprite.play('animate2');
+				sprite.customParams.sound.play();
+			} else {
+				sprite.play('animate');
+				sprite.customParams.sound.play();
+			}
 		}
 	},
+	update: function () { },
+	// animateButton: function (sprite, event) {
+	// 	console.log(`Blocked:`, !this.uiBlocked);
+
+	// 	if (!this.uiBlocked) {
+	// 		this.uiBlocked = true;
+	// 		if (this.playerTurn) {
+	// 			this.checkArrays(sprite.key)
+	// 		}
+	// 		this.anims.forEach((element) => {
+	// 			element.onComplete.add(() => {
+	// 				this.uiBlocked = false;
+	// 			}, this);
+	// 		}, this);
+
+	// 		sprite.play('animate');
+	// 		sprite.customParams.sound.play();
+	// 	}
+	// },
 	createSequence: function () {
 		this.sequenceGame.push(
 			this.buttonArr[this.game.rnd.integerInRange(0, 3)].key
 		);
+		this.buttons.setAll('inputEnabled', false)
 		this.playSequence(0)
 	},
 	playSequence: function (i) {
+		// this.buttons.setAll('input.pixelPerfectClick', false)
 		if (i < this.sequenceGame.length) {
 			this.game.time.events.add(
 				Phaser.Timer.SECOND * 1,
@@ -247,6 +191,7 @@ SimonGame.GameState = {
 		this.gameTurn = false;
 	},
 	auxiliar: function (i) {
+
 		switch (this.sequenceGame[i]) {
 			case 'yellowBtn':
 				this.animateButton(this.buttonArr[0]);
@@ -267,6 +212,10 @@ SimonGame.GameState = {
 		this.playerTurn = true;
 		console.log(`Turno del jugador`);
 		this.turno.alpha = 1
+		this.buttons.setAll('inputEnabled', true)
+		this.buttons.setAll('input.pixelPerfectClick', true)
+		// button.inputEnabled = true;
+		// button.input.pixelPerfectClick = true;
 
 	},
 	checkArrays: function (button) {
@@ -285,7 +234,7 @@ SimonGame.GameState = {
 				this
 			)
 		} else if (playerS != gameS) {
-			this.uiBlocked = true
+			// this.uiBlocked = true
 			this.game.time.events.add(
 				Phaser.Timer.SECOND * 0.65,
 				this.lose,
@@ -297,28 +246,32 @@ SimonGame.GameState = {
 
 	},
 	conteoInicial: function () {
-		var num1 = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'contador')
+		var num1 = this.add.sprite(this.game.world.centerX, this.game.world.centerY - 10, 'contador')
 		num1.frame = 2
-		var num2 = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'contador')
+		var num2 = this.add.sprite(this.game.world.centerX, this.game.world.centerY - 10, 'contador')
 		num2.frame = 1
-		var num3 = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'contador')
+		var num3 = this.add.sprite(this.game.world.centerX, this.game.world.centerY - 10, 'contador')
 		num3.frame = 0
 		num1.alpha = 0
 		num2.alpha = 0
 		num1.anchor.setTo(0.5)
 		num2.anchor.setTo(0.5)
 		num3.anchor.setTo(0.5)
+		num1.scale.setTo(0.4)
+		num2.scale.setTo(0.4)
+		num3.scale.setTo(0.4)
 
 		var movimiento3 = this.game.add.tween(num3.scale)
 		var movimiento2 = this.game.add.tween(num2.scale)
 		var movimiento1 = this.game.add.tween(num1.scale)
-		var escalaConteo = 2.2
+		var escalaConteo = 0.8
+		var escalaInicial = 0.4
 		movimiento3.to({ x: escalaConteo, y: escalaConteo }, 450)
-		movimiento3.to({ x: 1, y: 1 }, 450)
+		movimiento3.to({ x: escalaInicial, y: escalaInicial }, 450)
 		movimiento2.to({ x: escalaConteo, y: escalaConteo }, 450)
-		movimiento2.to({ x: 1, y: 1 }, 450)
+		movimiento2.to({ x: escalaInicial, y: escalaInicial }, 450)
 		movimiento1.to({ x: escalaConteo, y: escalaConteo }, 450)
-		movimiento1.to({ x: 1, y: 1 }, 450)
+		movimiento1.to({ x: escalaInicial, y: escalaInicial }, 450)
 		movimiento3.onComplete.add(() => {
 			num3.destroy()
 			num2.alpha = 1
@@ -352,11 +305,11 @@ SimonGame.GameState = {
 		this.uiBlocked = true
 		this.juega = this.add.sprite(
 			this.game.world.centerX,
-			this.game.world.height - 70,
+			this.game.world.height - 80,
 			'juega'
 		);
 		this.juega.anchor.setTo(0.5);
-		this.juega.scale.setTo(1);
+		this.juega.scale.setTo(0.5);
 		this.juega.inputEnabled = true;
 		this.juega.events.onInputDown.add(this.restart, this);
 	},
