@@ -1,29 +1,13 @@
 var SimonGame = SimonGame || {};
 
-/**
-    Hay que quitar la imagen de fondo solo dejar el color *******
-    los botones están descuadrados ******
-    bajarle el tamaño al botón de volver a jugar *******
-    bajarle tamaño al 3 2 1 ******
-    cuando la maquina haga la secuencia bloquear los botones
-    centrar login 
- */
-
 SimonGame.GameState = {
 	init: function (highScore) {
-		// this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-		// this.scale.pageAlignHorizontally = true;
-		// this.scale.pageAlignVertically = true;
-		// this.scale.forceLandscape = true;
-
-		// this.stage.disableVisibilityChange = true;
 		this.highScore = highScore || 0
 	},
 	create: function () {
 		var framePerSec = 5;
 		this.config = JSON.parse(this.game.cache.getText('config'));
 
-		// this.background = this.add.sprite(0, 0, 'background');
 		this.game.stage.backgroundColor = "#314e5b";
 
 		this.base = this.add.sprite(
@@ -146,25 +130,6 @@ SimonGame.GameState = {
 			}
 		}
 	},
-	update: function () { },
-	// animateButton: function (sprite, event) {
-	// 	console.log(`Blocked:`, !this.uiBlocked);
-
-	// 	if (!this.uiBlocked) {
-	// 		this.uiBlocked = true;
-	// 		if (this.playerTurn) {
-	// 			this.checkArrays(sprite.key)
-	// 		}
-	// 		this.anims.forEach((element) => {
-	// 			element.onComplete.add(() => {
-	// 				this.uiBlocked = false;
-	// 			}, this);
-	// 		}, this);
-
-	// 		sprite.play('animate');
-	// 		sprite.customParams.sound.play();
-	// 	}
-	// },
 	createSequence: function () {
 		this.sequenceGame.push(
 			this.buttonArr[this.game.rnd.integerInRange(0, 3)].key
