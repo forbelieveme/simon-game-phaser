@@ -19,11 +19,12 @@ function validar_ingreso() {
 }
 
 function iniciarJuego() {
-    if (!juego) {
+    if (!SimonGame.game) {
         $('#seccion_form').hide();
         SimonGame.game = new Phaser.Game(960, 506, Phaser.AUTO, 'game_block');
 
         SimonGame.game.state.add('GameState', SimonGame.GameState);
+        SimonGame.game.state.add('HomeState', SimonGame.GameState);
         SimonGame.game.state.add('BootState', SimonGame.BootState);
         SimonGame.game.state.add('PreloadState', SimonGame.PreloadState);
         SimonGame.game.state.start('BootState');
@@ -55,8 +56,7 @@ function peticionValidacion(cedula, infoFormIngresoUsuario) {
                     iniciarJuego();
                     break;
                 default:
-                    console.log('success', datos);
-
+                    console.log('Default', datos);
                     break;
                 }
         },
