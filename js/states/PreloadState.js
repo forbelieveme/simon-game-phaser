@@ -19,11 +19,12 @@ SimonGame.PreloadState = {
 
 		this.load.image('base', 'assets/images/fondoNivel.png');
 		this.load.image('background', 'assets/images/fondo.jpg');
-		this.load.image('tablero', 'assets/images/panelInfoNivel.png');
 		this.load.image('maxPuntaje', 'assets/images/panelInfoNivel1.png');
 		this.load.image('puntaje', 'assets/images/panelInfoNivel2.png');
 		this.load.image('juega', 'assets/images/volverJugar.png');
 		this.load.image('turno', 'assets/images/tuTurno.png');
+		this.load.image('homePanel', 'assets/images/PanelFinal.png');
+
 
 		this.load.audio('yellowSound', [
 			'assets/audio/do.ogg',
@@ -100,6 +101,6 @@ SimonGame.PreloadState = {
 		this.load.text('config', 'assets/data/simon.json');
 	},
 	create: function () {
-		this.state.start('GameState');
+		this.state.start('HomeState');
 	},
 };
