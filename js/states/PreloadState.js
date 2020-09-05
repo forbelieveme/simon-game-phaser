@@ -27,6 +27,8 @@ SimonGame.PreloadState = {
 		this.load.image('rankingBtn', 'assets/images/btn_ranking.png');
 		this.load.image('playBtn', 'assets/images/btn_jugar.png');
 		this.load.image('logo', 'assets/images/LogoMenu.png');
+		this.load.image('rankPanel', 'assets/images/PanelRanking.png');
+		this.load.image('exitBtn', 'assets/images/btn_exit.png');
 
 
 		this.load.audio('yellowSound', [
