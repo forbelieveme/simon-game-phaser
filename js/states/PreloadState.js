@@ -24,6 +24,9 @@ SimonGame.PreloadState = {
 		this.load.image('juega', 'assets/images/volverJugar.png');
 		this.load.image('turno', 'assets/images/tuTurno.png');
 		this.load.image('homePanel', 'assets/images/PanelFinal.png');
+		this.load.image('rankingBtn', 'assets/images/btn_ranking.png');
+		this.load.image('playBtn', 'assets/images/btn_jugar.png');
+		this.load.image('logo', 'assets/images/LogoMenu.png');
 
 
 		this.load.audio('yellowSound', [
