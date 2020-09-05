@@ -60,15 +60,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
             $row = array(); // array variable
-            while ($returnResult = $stmt->fetch()) { // use fetch_assoc here
+            while ($stmt->fetch()) { // use fetch_assoc here
                 $row[] = [$col1, $col2, $col3]; // assign each value to array
             }
 
-            // $row = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
-
             $resp->mensaje = 'Consulta exitosa';
             $resp->data = $row;
-            // $resp->data2 = $stmt->$num_rows;
 
             echo json_encode($resp, JSON_FORCE_OBJECT);
             break;
