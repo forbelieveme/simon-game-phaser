@@ -3,10 +3,8 @@ var SimonGame = SimonGame || {};
 SimonGame.RankState = {
     init: function () {
         this.rankArray = []
-        this.rankArray = peticionRanking()
-
     },
-    create: function () {
+    create: async function () {
 
         this.game.stage.backgroundColor = "#314e5b";
 
@@ -26,7 +24,6 @@ SimonGame.RankState = {
         );
         this.btnCerrar.anchor.setTo(0.5);
 
-        // console.log(`success`, g_ArrayRanking);
         var style = {
             font: '25pt Muro',
             fill: '#00000',
@@ -34,6 +31,11 @@ SimonGame.RankState = {
             // stroke: '#376f7c',
             // strokeThickness: 5
         };
+
+        // peticionRanking().then((data) => {
+        let data = await peticionRanking();
+        this.rankArray = data.data;
+
         for (var i = 0; i < 10; i++) {
             var tmpPuesto = this.add.text(
                 this.game.world.centerX - 180,
@@ -44,7 +46,6 @@ SimonGame.RankState = {
             tmpPuesto.anchor.setTo(0, 0.5);
             console.log(`rrr: `, this.rankArray[i]);
 
-            // if (this.rankArray[i] != undefined) {
             if (this.rankArray[i]) {
                 var tmpNombre = this.add.text(
                     this.game.world.centerX - 145,
@@ -64,7 +65,6 @@ SimonGame.RankState = {
                 continue;
             }
 
-
             var tmpNombre = this.add.text(
                 this.game.world.centerX - 145,
                 this.game.world.centerY - 140 + i * 36,
@@ -81,38 +81,27 @@ SimonGame.RankState = {
             );
             tmpPuntos.anchor.setTo(1, 0.5);
         }
-    },
-    peticionRanking: function(){
-
+        // })
     },
     clickBotonCerrar: function () {
         this.state.start('HomeState');
     },
 }
 
-function peticionRanking() {
-    var rankArray = []
-    var y = $.ajax({
-        url: 'php/Partida.php',
-        data: {
-            query: 'getRanking',
-        },
-        type: 'POST',
-        // success: function (datos) {
-        //     console.log(`datos`, datos.data);
-        //     rankArray = datos.data
-        // }
-    })
-    // .done(function (datos) {
-    //     console.log(`datos`, datos.data);
-    //     rankArray = datos.data
-    // });
-    y.done(function (datos) {
-        console.log(`datos: `, datos.data);
-    })
-
-    return rankArray;
-
+async function peticionRanking() {
+    let result;
+    try {
+        result = await $.ajax({
+            url: 'php/Partida.php',
+            data: {
+                query: 'getRanking',
+            },
+            type: 'POST',
+        })
+        return result;
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 
