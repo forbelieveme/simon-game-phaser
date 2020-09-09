@@ -44,12 +44,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         case "getRanking":
             $arregloResultado = array();
-            $sql = 'SELECT @curRank := @curRank + 1 AS RANK, u.nombre AS NOMBRE, SUM(p.puntaje) AS PUNTAJE FROM Usuario u, Partida p, (SELECT @curRank := 0) r WHERE u.cedula = p.cedula_fk GROUP BY u.cedula ORDER BY SUM(p.puntaje) DESC;';
+            $sql = 'SELECT u.nombre AS NOMBRE, SUM(p.puntaje) AS PUNTAJE FROM Usuario u, Partida p WHERE u.cedula = p.cedula_fk GROUP BY u.cedula ORDER BY SUM(p.puntaje) DESC;';
             
             try {
                 $stmt = $db->prepare($sql);
                 $stmt->execute();
-                $stmt->bind_result($col1, $col2, $col3);
+                $stmt->bind_result($col1, $col2);
                 $stmt->store_result();
             } catch (Exception $e) {
                 die(json_encode([
@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $row = array(); // array variable
             while ($stmt->fetch()) { // use fetch_assoc here
-                $row[] = [$col1, $col2, $col3]; // assign each value to array
+                $row[] = [$col1, $col2]; // assign each value to array
             }
 
             $resp->mensaje = 'Consulta exitosa';
