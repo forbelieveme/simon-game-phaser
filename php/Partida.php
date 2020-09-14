@@ -69,6 +69,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             echo json_encode($resp, JSON_FORCE_OBJECT);
             break;
+            
+        case "getHighScore":
+            $cedula = $_POST["cedula"];
+            $sql = 'SELECT u.nombre AS NOMBRE, MAX(p.puntaje) AS PUNTAJE FROM Usuario u, Partida p WHERE u.cedula = p.cedula_fk AND p.cedula_fk= ?;';
+            
+            try {
+                $stmt = $db->prepare($sql);
+                $stmt->bind_param("i", $cedula);
+                $stmt->execute();
+                $stmt->bind_result($col1, $col2);
+                $stmt->store_result();
+            } catch (Exception $e) {
+                die(json_encode([
+                    'error' => mysqli_connect_error(),
+                    'code' => mysqli_connect_errno(),
+                    'excepcion' => $e->getMessage()
+                ]));
+            }
+
+            $row = $stmt->num_rows;
+
+            if ($row == 0) {
+                //No existe la Cédula...
+                $resp->highScore = 0;
+
+                echo json_encode($resp, JSON_FORCE_OBJECT);
+                exit;
+            } else {
+                $stmt->fetch();
+
+                $resp->highScore = $col2;
+
+                echo json_encode($resp, JSON_FORCE_OBJECT);
+                exit;
+            }
+            $stmt->close();
+            break;
     }
     mysqli_close($db);
 }
@@ -113,3 +150,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // SELECT *
 // FROM Usuario u, Partida p
 // WHERE u.cedula = p.cedula_fk;
+
+
+// SELECT u.nombre AS NOMBRE, MAX(p.puntaje) AS PUNTAJE
+// FROM Usuario u, Partida p
+// WHERE u.cedula = p.cedula_fk
+// AND p.cedula_fk=101;
