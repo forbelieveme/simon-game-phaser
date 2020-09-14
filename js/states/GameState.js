@@ -110,24 +110,21 @@ SimonGame.GameState = {
 	},
 	update: function () { },
 	animateButton: function (sprite, event) {
-		console.log(`Blocked:`, this.uiBlocked);
+		console.log(`Blocked:`, !this.uiBlocked);
 
 		if (!this.uiBlocked) {
 			this.uiBlocked = true;
 			if (this.playerTurn) {
 				this.checkArrays(sprite.key)
-				this.anims.forEach((element) => {
-					element.onComplete.add(() => {
-						this.uiBlocked = false;
-					}, this);
-				}, this);
-
-				sprite.play('animate2');
-				sprite.customParams.sound.play();
-			} else {
-				sprite.play('animate');
-				sprite.customParams.sound.play();
 			}
+			this.anims.forEach((element) => {
+				element.onComplete.add(() => {
+					this.uiBlocked = false;
+				}, this);
+			}, this);
+
+			sprite.play('animate');
+			sprite.customParams.sound.play();
 		}
 	},
 	createSequence: function () {
@@ -274,7 +271,7 @@ SimonGame.GameState = {
 		this.juega.anchor.setTo(0.5);
 		this.juega.scale.setTo(0.5);
 		this.juega.inputEnabled = true;
-		await envioPuntaje(101, int(this.scoreText))
+		await envioPuntaje(101, this.sequenceGame.length - 1)
 		this.juega.events.onInputDown.add(this.restart, this);
 	},
 	restart: function () {
