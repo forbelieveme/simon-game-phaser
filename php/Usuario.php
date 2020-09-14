@@ -20,11 +20,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         case "validacionIngresoUsusario":
             
             $cedula = $_POST["cedula"];
-            $stmt = $db->prepare("SELECT cedula, nombre, apellido FROM Usuario WHERE cedula=?");
-            $stmt->bind_param("i", $cedula);
+            $sql="SELECT cedula, nombre, apellido FROM Usuario WHERE cedula=?";
             
-
             try {
+                $stmt = $db->prepare($sql);
+                $stmt->bind_param("i", $cedula);
                 $stmt->execute();
                 $stmt->bind_result($col1, $col2, $col3);
                 $stmt->store_result();
