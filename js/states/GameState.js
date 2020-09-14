@@ -190,8 +190,6 @@ SimonGame.GameState = {
 		var playerS = JSON.stringify(this.sequencePlayer[this.posicion])
 		var gameS = JSON.stringify(this.sequenceGame[this.posicion])
 
-
-
 		if (playerS === gameS && this.posicion + 1 == this.sequenceGame.length) {
 			this.game.time.events.add(
 				Phaser.Timer.SECOND * 0.65,
@@ -265,7 +263,7 @@ SimonGame.GameState = {
 		this.posicion = 0;
 		this.createSequence()
 	},
-	lose: function () {
+	lose: async function () {
 		this.loseSound.play()
 		this.uiBlocked = true
 		this.juega = this.add.sprite(
@@ -276,6 +274,7 @@ SimonGame.GameState = {
 		this.juega.anchor.setTo(0.5);
 		this.juega.scale.setTo(0.5);
 		this.juega.inputEnabled = true;
+		await envioPuntaje(101, int(this.scoreText))
 		this.juega.events.onInputDown.add(this.restart, this);
 	},
 	restart: function () {
@@ -285,3 +284,21 @@ SimonGame.GameState = {
 		this.game.state.start('GameState', true, false, max);
 	}
 };
+
+async function envioPuntaje(cedula, puntaje) {
+	let result;
+	try {
+		result = await $.ajax({
+			url: 'php/Partida.php',
+			data: {
+				query: 'guardarPuntaje',
+				cedula,
+				puntaje,
+			},
+			type: 'POST',
+		})
+		return result;
+	} catch (error) {
+		console.error(error);
+	}
+}
