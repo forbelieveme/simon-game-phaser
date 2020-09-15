@@ -10,14 +10,14 @@ SimonGame.RankState = {
 
         this.panel = this.add.sprite(
             this.game.world.centerX,
-            this.game.world.centerY,
+            this.game.world.centerY - 20,
             'rankPanel'
         );
         this.panel.anchor.setTo(0.5);
 
         this.btnCerrar = this.add.button(
-            this.game.width - 5,
-            5,
+            this.game.world.centerX,
+            this.game.height - 30,
             'exitBtn',
             this.clickBotonCerrar,
             this
@@ -39,7 +39,7 @@ SimonGame.RankState = {
         for (var i = 0; i < 10; i++) {
             var tmpPuesto = this.add.text(
                 this.game.world.centerX - 180,
-                this.game.world.centerY - 140 + i * 36,
+                this.game.world.centerY - 160 + i * 36,
                 i + 1 + '.',
                 style
             );
@@ -49,7 +49,7 @@ SimonGame.RankState = {
             if (this.rankArray[i]) {
                 var tmpNombre = this.add.text(
                     this.game.world.centerX - 145,
-                    this.game.world.centerY - 140 + i * 36,
+                    this.game.world.centerY - 160 + i * 36,
                     `${this.rankArray[i]['0']}`,
                     style
                 );
@@ -57,7 +57,7 @@ SimonGame.RankState = {
 
                 var tmpPuntos = this.add.text(
                     this.game.world.centerX + 180,
-                    this.game.world.centerY - 140 + i * 36,
+                    this.game.world.centerY - 160 + i * 36,
                     `${this.rankArray[i]['1']}`,
                     style
                 );
@@ -67,7 +67,7 @@ SimonGame.RankState = {
 
             var tmpNombre = this.add.text(
                 this.game.world.centerX - 145,
-                this.game.world.centerY - 140 + i * 36,
+                this.game.world.centerY - 160 + i * 36,
                 ``,
                 style
             );
@@ -75,7 +75,7 @@ SimonGame.RankState = {
 
             var tmpPuntos = this.add.text(
                 this.game.world.centerX + 180,
-                this.game.world.centerY - 140 + i * 36,
+                this.game.world.centerY - 160 + i * 36,
                 `0`,
                 style
             );
