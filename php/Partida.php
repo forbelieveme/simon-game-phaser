@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         case "getRanking":
             $arregloResultado = array();
-            $sql = 'SELECT u.nombre AS NOMBRE, SUM(p.puntaje) AS PUNTAJE FROM Usuario u, Partida p WHERE u.cedula = p.cedula_fk GROUP BY u.cedula ORDER BY SUM(p.puntaje) DESC LIMIT 10;';
+            $sql = 'SELECT u.nombre AS NOMBRE, MAX(p.puntaje) AS PUNTAJE FROM Usuario u, Partida p WHERE u.cedula = p.cedula_fk GROUP BY u.cedula ORDER BY SUM(p.puntaje) DESC LIMIT 10;';
             
             try {
                 $stmt = $db->prepare($sql);
