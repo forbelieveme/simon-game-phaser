@@ -271,7 +271,7 @@ SimonGame.GameState = {
 		this.juega.anchor.setTo(0.5);
 		this.juega.scale.setTo(0.5);
 		this.juega.inputEnabled = true;
-		await envioPuntaje(101, this.sequenceGame.length - 1)
+		await envioPuntaje(SimonGame.game.customParams.cedula, this.sequenceGame.length - 1)
 		this.juega.events.onInputDown.add(this.restart, this);
 	},
 	restart: function () {
