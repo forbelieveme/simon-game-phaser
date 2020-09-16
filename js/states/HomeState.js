@@ -48,8 +48,8 @@ SimonGame.HomeState = {
         this.txtNombre = this.add.text(
             this.game.world.centerX,
             this.game.world.centerY + 35,
-            // `${juego.global.nombre}`,
-            `Nombre Apellido`,
+            `${SimonGame.game.customParams.nombre} ${SimonGame.game.customParams.apellido}`,
+            // `Nombre Apellido`,
             style
         );
         this.txtNombre.anchor.setTo(0.5);
